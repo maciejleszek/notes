@@ -337,6 +337,22 @@ def handle_new_message(message):
 
 ## JS
 
+1. The JS `for of` statement loops through the values of an iterable object.
+```js
+for (variable of iterable) {
+  // code block to be executed
+}
+```
+
+2. 
+
+### Objects
+
+- Initialization of an empty dictionary (in JS it's not a defined data type)
+    ```js
+    const object = {}
+    ```
+
 ### WebSockets
 https://www.youtube.com/watch?v=AMp6hlA8xKA&t=3s
 - SocketIO object is needed: `const socket = io();`
