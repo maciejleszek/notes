@@ -131,22 +131,96 @@ def handle_event(self, event_str, _eventdata):
         entries, eventdata = LabGUI.filter_map(event_str, self.map) 
 ```
 
-7. Merging two dicts: `eventdata = {**eventdata, **_eventdata}`
-
-```python
-eventdata = {"key1": "value1", "key2": "value2"}
-_eventdata = {"key2": "new_value2", "key3": "value3"}
-
-eventdata = {**eventdata, **_eventdata}
-
-{"key1": "value1", "key2": "new_value2", "key3": "value3"} # eventdata values
-```
-
-8. `__repr__` - is a special method in Python that is used to define the “official” string representation of an object. This string representation should be unambiguous and ideally could be used to recreate the object. `!r` represents `repr()`
+7. `__repr__` - is a special method in Python that is used to define the “official” string representation of an object. This string representation should be unambiguous and ideally could be used to recreate the object. `!r` represents `repr()`
 https://stackoverflow.com/questions/44800801/in-python-format-f-string-strings-what-does-r-mean
 
-9. In Python, the order of method definitions inside a `class` does not affect their usage *within* that class. 
+8. In Python, the order of method definitions inside a `class` does not affect their usage *within* that class. 
 
+
+### Data types
+
+#### Dictionary
+
+- In dictionary `.items()` returns an iterable view of its key-value pairs
+
+- Merging two dicts: `eventdata = {**eventdata, **_eventdata}`
+
+    ```python
+    eventdata = {"key1": "value1", "key2": "value2"}
+    _eventdata = {"key2": "new_value2", "key3": "value3"}
+
+    eventdata = {**eventdata, **_eventdata}
+
+    {"key1": "value1", "key2": "new_value2", "key3": "value3"} # eventdata values
+    ```
+
+- `get()` method returns the value of the item with the specified key
+
+#### List
+
+- `extend()` method adds the specified list elements (or any iterable) to the end of the current list. When the `extend() `function says "appending elements from the iterable," it means that it will take each element from the iterable (whether it's a list, string, tuple, etc.) and add them one by one to the end of the list:
+```python
+# Start with a list
+my_list = [1, 2, 3]
+
+# Define another iterable, like a string
+another_iterable = "456"
+
+# Use extend to add elements from the string to my_list
+my_list.extend(another_iterable)
+
+print(my_list)  # Output: [1, 2, 3, '4', '5', '6']
+```
+
+- 
+
+### Type hints
+
+- Specifying possible type of arg and return  - list or bool
+```python
+def func(arg: int | str) -> int | str:
+    #         ^^^^^^^^^     ^^^^^^^^^ 
+    #        type of arg   return type
+```
+
+
+### Print
+
+- It changes print's ending character to space (" ")
+```python
+print(arg, end=" ")
+```
+
+### Args and Kwargs
+
+- Allow to pass multiple arguments (`*args` - non-key, `**kwargs` - keyword)
+
+- They allow to pass in multiple arguments without knowing how many of them, there will be:
+```python
+def add(*args): 
+    total = 0
+    for arg in args:
+        total += arg
+
+add(1, 2, 3)
+```
+- args is a `tuple` type
+
+- Operator `*` is used to unpack. The single asterisk operator `*` can be used on any iterable that Python provides, while the double asterisk operator `**` can only be used on dictionaries. E.g.:
+```python
+my_list = [1, 2, 3]
+print(my_list)
+# [1, 2, 3]
+
+print(*my_list)
+# 1 2 3
+```
+
+
+
+- `kwargs` (keyword args) is a `dict` type
+
+- We can access keys(`kwargs.keys()`) and values(`kwargs.values()`) of `kwargs`. To access both we can use `kwargs.items()`
 
 ### __ init __ 
 
@@ -397,12 +471,18 @@ document.getElementById("message").addEventListener("keyup", function (event) {
 1. theme: JoelCrosby.one-dark-darker
 
 
-## Programming
+## Programming generally
 
 1. Difference between a function and a method
     - *Function* - self-standing block of code, not associated with class or object
 
     - *Method* - associated with a class or an object and frequently operates on this object's data
 
-2. 
+2. Difference between a parameter and an argument
+    - *Parameter* - is a variable in the declaration of a function. It is a placeholder used in the function definition, where you define what kind of input the function expects
+
+    - *Argument* - is the actual value or data that you pass to the function when you call it. It is the input that you provide to a function when invoking it
+
+3. 
+
 
