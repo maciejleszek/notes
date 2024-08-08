@@ -324,6 +324,19 @@ The event module is a built-in module in Python that provides a class called Eve
 4. Event loop
 5. Event handler
 
+## Pandas
+
+```python
+import pandas as pd
+
+column = ["Mariya", "Batman", "Spongebob"]
+titled_column = {"name": column} # adding name to our column
+data = pd.DataFrame(titled_column) # turning list into pandas dataframe (its organized in rows and columns):
+#       0
+# 0     Mariya
+# 1     Batman
+# 2     Spongebob
+```
 
 ## Flask
 

@@ -79,7 +79,7 @@ tedious - repetitive, dull
 
 purge - clean/delete
 
-
+persist - not stop/insist
 
 
 ## GRAMMAR
