@@ -75,6 +75,13 @@ eventually - in the end
 
 traverse - analyse
 
+tedious - repetitive, dull
+
+purge - clean/delete
+
+
+
+
 ## GRAMMAR
 this - singular thing close to me - What about this shirt for Oliver
 
