@@ -1,7 +1,4 @@
-## LinkedIn
-
-1. Gitlab?
-
+# My notes made during learning 
 
 ## Python
 
@@ -326,16 +323,113 @@ The event module is a built-in module in Python that provides a class called Eve
 
 ## Pandas
 
+### Basics
+
 ```python
+# main.py
 import pandas as pd
 
 column = ["Mariya", "Batman", "Spongebob"]
-titled_column = {"name": column} # adding name to our column
-data = pd.DataFrame(titled_column) # turning list into pandas dataframe (its organized in rows and columns):
-#       0
-# 0     Mariya
-# 1     Batman
-# 2     Spongebob
+titled_columns = {"name": column, # adding name to our column
+                 "height": [1.67, 1.9, 0.25],
+                 "weight": [54, 100, 1]
+                 } 
+data = pd.DataFrame(titled_columns) # turning list into pandas dataframe (its organized in rows and columns):
+select_column = data["weight"][1] # we are accesing second element of column's list -> Batman
+select_row = data.iloc[1]["weight"] # iloc represents a row, 1 is an index of the row
+
+# Avoiding for loop - pandas supports doing math directly on columns
+data["bmi"] = data["weight"]/(data["height"]**2) # adds BMi column to the data
+
+data.to_csv("bmi.csv", index=False, sep="\t") # saves data to the CSV file, we can specify which data separator we are using. We use index=False to avoid unnecessary additional indexing 
+
+print(data)
+#         name  height  weight
+# 0     Mariya    1.67      54
+# 1     Batman    1.90     100
+# 2  Spongebob    0.25       1
+```
+
+```python
+# select_df.py
+import pandas as pd
+import sqlite3
+
+data = pd.read_csv("bmi.csv", sep='\t')
+connection = sqlite3.connect("sample.db")
+
+sample_data = pd.read_sql("select * from users", connection) # users is the name of the table, not the db
+# print(sample_data.head()) # using head we print only first 5(default) rows od db, we can specify other number in the brackets
+
+# print(sample_data.tail()) # using last we print only last 5(default) rows od db, we can specify other number in the brackets
+
+# Filtering data entries - returns only row with 
+filtered_row = sample_data[ sample_data["username"] == "jona"] # first sample_data specifies filtering command, second one selects the entire column and checks the value 
+
+# Replace data entries
+replaced_city = sample_data.replace("jona", "stachu")
+
+# Remove data
+# We can remove multiple lines using list: ["city", "username"]
+remove_column = sample_data.drop("username", axis=1) # axis = 1 refers to column, axis = 0 refers to rows
+remove_row = sample_data.iloc[0:2] # accesing only rows from id = 0 to id less than 2. ID's of list/dataframe not id from db
+
+# Add new rows
+row = {"id": "4", "username": "samiuel", "email_address": "bec@g.com"}
+
+# Append the new row to the DataFrame
+# pd.concat: Concatenates the original DataFrame (sample_data) with the new row DataFrame. This approach is often preferred over _append, which is now deprecated in favor of more general concatenation
+# pd.DataFrame([row]): Converts the dictionary row into a DataFrame with one row. By wrapping the dictionary in a list, you create a DataFrame that can be easily concatenated with your existing DataFrame
+new_row_data = pd.concat([sample_data, pd.DataFrame([row])], ignore_index=True)
+
+# Remove duplicates
+jam_data = pd.read_csv("bmi.csv", sep='\t')
+print(len(jam_data))
+print(jam_data.columns)
+jam_data.drop_duplicates(inplace=True) # The inplace=True parameter directly modifies the original DataFrame, instead of returning a new one
+print(len(jam_data))
+
+```
+
+### Querying Databases
+
+`read_sql_query()` - pandas method to execute SQL query on db, requires two arguments: the query and the connection variables
+
+```python
+#Establish a connection to the database
+conn = sqlite3.connect('world_population.db')
+
+#Execute a SELECT query and read results into a DataFrame
+query = "SELECT * FROM population;"
+results = pd.read_sql_query(query, conn)
+```
+
+#### Creating a Data Visualization
+
+```python
+conn = sqlite3.connect('world_population.db')
+
+# Execute a SELECT query
+query = """
+   SELECT Year, Population 
+     FROM population 
+    WHERE CountryName = 'United States of America';
+    """
+
+# Retrieve the results of the query as a pandas dataframe
+data = pd.read_sql_query(query, conn)
+
+# Create a column chart of the population data for the country by year
+plt.bar(data['Year'], data['Population'])
+plt.xlabel('Year')
+plt.ylabel('Population')
+plt.title('Population of the United States of America by Year')
+
+# Show the plot
+plt.show()
+
+# Close the database connection
+conn.close()
 ```
 
 ## Flask
@@ -409,6 +503,9 @@ document.getElementById("message").addEventListener("keyup", function (event) {
 ```
 
 ## SQL
+
+### Best practices
+- While SQLite doesn't require adding a semi-colon `(;)` to the end of a query, it's considered best practice
 
 ## SQLAlchemy
 
